@@ -74,10 +74,9 @@ export default function Post({ post }: PostProps) {
             <h3 className="font-semibold text-gray-900">
               {post.profiles.full_name}
             </h3>
-            <TimeAgo
-              date={post.created_at}
-              className="text-sm text-gray-500"
-            />
+            <div className="text-sm text-gray-500">
+              <TimeAgo date={post.created_at} />
+            </div>
           </div>
         </div>
         <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
@@ -171,7 +170,9 @@ export default function Post({ post }: PostProps) {
                       <p className="text-sm text-gray-600">{comment.content}</p>
                     </div>
                     <div className="mt-1 flex items-center gap-4 text-xs text-gray-500">
-                      <TimeAgo date={comment.created_at} />
+                      <div className="text-sm text-gray-500">
+                        <TimeAgo date={comment.created_at} />
+                      </div>
                       <button className="hover:text-primary transition-colors">
                         Like
                       </button>
