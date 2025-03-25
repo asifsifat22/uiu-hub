@@ -49,17 +49,58 @@ A comprehensive platform for United International University students to connect
 
 The app is configured for deployment on Vercel:
 
+1. Install Vercel CLI:
+   ```bash
+   npm install -g vercel
+   ```
+
+2. Login to Vercel:
+   ```bash
+   vercel login
+   ```
+
+3. Set up Vercel project:
+   ```bash
+   vercel link
+   ```
+
+4. Add environment variables to Vercel:
+   ```bash
+   vercel env add NEXT_PUBLIC_SUPABASE_URL
+   vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY
+   ```
+
+5. Deploy to production:
+   ```bash
+   vercel --prod
+   ```
+
+Alternatively, you can deploy directly from the Vercel dashboard:
+
 1. Push your code to GitHub
-2. Connect your GitHub repository to Vercel
-3. Add environment variables in Vercel dashboard
+2. Import your repository in the Vercel dashboard
+3. Configure environment variables in the Vercel project settings
 4. Deploy!
+
+## Environment Variables
+
+Required environment variables:
+
+- `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Your Supabase anonymous key
+
+## Database Setup
+
+1. Create a new Supabase project
+2. Run the migration in `supabase/migrations/20250325073313_add_core_tables.sql`
+3. Configure storage buckets and policies as defined in the migration
 
 ## Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create your feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
 5. Open a Pull Request
 
 ## License

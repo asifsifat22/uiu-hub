@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiImage, FiX } from 'react-icons/fi'
 import Button from '@/components/ui/Button'
-import { uploadMultipleFiles } from '@/utils/supabase-storage'
-import { createPost } from '@/utils/supabase-db'
+import { uploadFile } from '@/lib/upload'
+import { supabase } from '@/lib/supabase'
 import Image from 'next/image'
 
 export default function CreatePost({ onPostCreated }: { onPostCreated: () => void }) {
@@ -41,16 +41,18 @@ export default function CreatePost({ onPostCreated }: { onPostCreated: () => voi
       setLoading(true)
 
       // Upload images if any
-      const imageUrls = selectedFiles.length > 0
-        ? await uploadMultipleFiles(selectedFiles, 'posts')
-        : []
+      const imageUrls = await Promise.all(
+        selectedFiles.map(file => uploadFile(file, 'post'))
+      )
 
       // Create post
-      await createPost(
-        'current-user-id', // This will be replaced with actual user ID
+      const { error } = await supabase.from('posts').insert({
+        user_id: (await supabase.auth.getUser()).data.user?.id,
         content,
-        imageUrls
-      )
+        images: imageUrls.filter(Boolean)
+      })
+
+      if (error) throw error
 
       // Reset form
       setContent('')
@@ -59,7 +61,6 @@ export default function CreatePost({ onPostCreated }: { onPostCreated: () => voi
       onPostCreated()
     } catch (error) {
       console.error('Error creating post:', error)
-      // TODO: Show error toast
     } finally {
       setLoading(false)
     }
